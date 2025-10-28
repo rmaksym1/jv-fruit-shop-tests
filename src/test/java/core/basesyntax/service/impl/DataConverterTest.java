@@ -1,24 +1,14 @@
 package core.basesyntax.service.impl;
 
 import core.basesyntax.interfaces.DataConverter;
-import core.basesyntax.interfaces.FileReader;
-import java.io.IOException;
-import java.io.UncheckedIOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
-import org.junit.jupiter.api.AfterEach;
+import java.util.List;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 public class DataConverterTest {
     private static final Path path = Path.of("src/main/resources/testReport.csv");
-    private DataConverter converter = new DataConverterImpl();
-    private FileReader fileReader = new FileReaderImpl();
-
-    @AfterEach
-    public void teardown() throws IOException {
-        Files.deleteIfExists(path);
-    }
+    private final DataConverter converter = new DataConverterImpl();
 
     @Test
     public void convert_nullData_NotOk() {
@@ -27,42 +17,44 @@ public class DataConverterTest {
     }
 
     @Test
-    public void convert_emptyData_NotOk() {
-        Assertions.assertThrows(UncheckedIOException.class, () ->
-                converter.convertToTransaction(fileReader.read("")));
-    }
-
-    @Test
-    public void convert_corruptedLine_NotOk() throws IOException {
-        Files.createFile(path);
-        Files.writeString(path, "type,fruit,quantity\n"
-                + "b,banana,20\n"
-                + "b,apple,120\n"
-                + "s,banana,30\n"
-                + "s,apple\n");
+    public void convert_emptyList_NotOk() {
         Assertions.assertThrows(IllegalArgumentException.class, () ->
-                converter.convertToTransaction(fileReader.read(path.toString())));
+                converter.convertToTransaction(List.of()));
     }
 
     @Test
-    public void convert_negativeQuantity_NotOk() throws IOException {
-        Files.createFile(path);
-        Files.writeString(path, "type,fruit,quantity\n"
-                + "b,banana,20\n"
-                + "b,apple,120\n"
-                + "s,banana,-67\n");
+    public void convert_corruptedLine_NotOk() {
+        List<String> list = List.of(
+                "type,fruit,quantity",
+                "b,banana,20",
+                "b,apple,120",
+                "s,banana."
+        );
         Assertions.assertThrows(IllegalArgumentException.class, () ->
-                converter.convertToTransaction(fileReader.read(path.toString())));
+                converter.convertToTransaction(list));
     }
 
     @Test
-    public void convert_validData_Ok() throws IOException {
-        Files.createFile(path);
-        Files.writeString(path, "type,fruit,quantity\n"
-                + "b,banana,20\n"
-                + "b,apple,120\n"
-                + "s,banana,30\n");
+    public void convert_negativeQuantity_NotOk() {
+        List<String> list = List.of(
+                "type,fruit,quantity",
+                "b,banana,20",
+                "b,apple,-120",
+                "s,banana,30"
+        );
+        Assertions.assertThrows(IllegalArgumentException.class, () ->
+                converter.convertToTransaction(list));
+    }
+
+    @Test
+    public void convert_validData_Ok() {
+        List<String> list = List.of(
+                "type,fruit,quantity",
+                "b,banana,20",
+                "b,apple,120",
+                "s,banana,30"
+        );
         Assertions.assertDoesNotThrow(() ->
-                converter.convertToTransaction(fileReader.read(path.toString())));
+                converter.convertToTransaction(list));
     }
 }

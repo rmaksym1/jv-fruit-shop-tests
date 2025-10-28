@@ -8,15 +8,17 @@ public class DataConverterImpl implements DataConverter {
 
     @Override
     public List<FruitTransaction> convertToTransaction(List<String> data) {
-        if (data != null) {
-            return data.stream()
-                    .skip(1)
-                    .filter(s -> !s.isEmpty())
-                    .map(this::toTransaction)
-                    .toList();
-        } else {
+        if (data == null) {
             throw new IllegalArgumentException("List is null");
         }
+        if (data.isEmpty()) {
+            throw new IllegalArgumentException("List is empty");
+        }
+        return data.stream()
+                .skip(1)
+                .filter(s -> !s.isEmpty())
+                .map(this::toTransaction)
+                .toList();
     }
 
     private FruitTransaction toTransaction(String data) {
