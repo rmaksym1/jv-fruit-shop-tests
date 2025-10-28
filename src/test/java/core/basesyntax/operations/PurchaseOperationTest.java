@@ -23,25 +23,25 @@ public class PurchaseOperationTest {
     }
 
     @Test
-    void emptyTransaction_Ok() {
+    void apply_emptyTransaction_Ok() {
         fruitTransaction = new FruitTransaction(FruitTransaction.Operation.PURCHASE, "apple", 10);
         Assertions.assertDoesNotThrow(() -> operation.apply(fruitTransaction));
     }
 
     @Test
-    void nullTransaction_MaybeOk() {
+    void apply_nullTransaction_MaybeOk() {
         Assertions.assertDoesNotThrow(() -> operation.apply(null));
     }
 
     @Test
-    void negativeQuantityTransaction_NotOk() {
+    void apply_negativeQuantityTransaction_NotOk() {
         fruitTransaction = new FruitTransaction(FruitTransaction.Operation.PURCHASE, "apple", -100);
         Assertions.assertThrows(IllegalArgumentException.class, () ->
                 operation.apply(fruitTransaction));
     }
 
     @Test
-    void validTransaction_Ok() {
+    void apply_validTransaction_Ok() {
         storage.put("apple", 15);
         fruitTransaction = new FruitTransaction(FruitTransaction.Operation.PURCHASE, "apple", 10);
         Assertions.assertDoesNotThrow(() ->
@@ -51,7 +51,7 @@ public class PurchaseOperationTest {
     }
 
     @Test
-    void notEnoughInStock_NotOk() {
+    void apply_notEnoughInStock_NotOk() {
         storage.put("apple", 15);
         fruitTransaction = new FruitTransaction(FruitTransaction.Operation.PURCHASE, "apple", 20);
         Assertions.assertThrows(RuntimeException.class, () ->

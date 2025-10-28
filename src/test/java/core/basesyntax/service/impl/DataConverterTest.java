@@ -21,19 +21,19 @@ public class DataConverterTest {
     }
 
     @Test
-    public void nullData_NotOk() {
+    public void convert_nullData_NotOk() {
         Assertions.assertThrows(IllegalArgumentException.class, () ->
                 converter.convertToTransaction(null));
     }
 
     @Test
-    public void emptyData_NotOk() {
+    public void convert_emptyData_NotOk() {
         Assertions.assertThrows(UncheckedIOException.class, () ->
                 converter.convertToTransaction(fileReader.read("")));
     }
 
     @Test
-    public void corruptedLine_NotOk() throws IOException {
+    public void convert_corruptedLine_NotOk() throws IOException {
         Files.createFile(path);
         Files.writeString(path, "type,fruit,quantity\n"
                 + "b,banana,20\n"
@@ -45,7 +45,7 @@ public class DataConverterTest {
     }
 
     @Test
-    public void negativeQuantity_NotOk() throws IOException {
+    public void convert_negativeQuantity_NotOk() throws IOException {
         Files.createFile(path);
         Files.writeString(path, "type,fruit,quantity\n"
                 + "b,banana,20\n"
@@ -56,7 +56,7 @@ public class DataConverterTest {
     }
 
     @Test
-    public void validData_Ok() throws IOException {
+    public void convert_validData_Ok() throws IOException {
         Files.createFile(path);
         Files.writeString(path, "type,fruit,quantity\n"
                 + "b,banana,20\n"

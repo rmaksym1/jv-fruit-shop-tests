@@ -13,49 +13,44 @@ public class FileWriterTest {
     private static final String FILE_PATH = "src/main/resources/TestReport.csv";
     private final FileWriter fileWriter = new FileWriterImpl();
 
-    @AfterEach
-    void setUp() throws IOException {
-        Files.deleteIfExists(Paths.get(FILE_PATH));
-    }
-
     @Test
-    public void nullReport_notOk() {
+    public void write_nullReport_notOk() {
         Assertions.assertThrows(NullPointerException.class,
                 () -> fileWriter.write(null, FILE_PATH));
     }
 
     @Test
-    public void emptyReport_notOk() {
+    public void write_emptyReport_notOk() {
         Assertions.assertThrows(IllegalArgumentException.class,
                 () -> fileWriter.write("", FILE_PATH));
     }
 
     @Test
-    public void nullReportPath_notOk() {
+    public void write_nullReportPath_notOk() {
         Assertions.assertThrows(NullPointerException.class,
                 () -> fileWriter.write("data", null));
     }
 
     @Test
-    void writeToNonExistentDirection_notOk() {
+    void write_NonExistentDirection_notOk() {
         Assertions.assertThrows(RuntimeException.class,
                 () -> fileWriter.write("data", "UnknownNonExistentDirection/TestReport.csv"));
     }
 
     @Test
-    void writeToExistentDirection_Ok() throws IOException {
-        Files.createFile(Path.of(FILE_PATH));
-        Assertions.assertDoesNotThrow(() -> fileWriter.write("data", FILE_PATH));
+    void write_ExistentDirection_Ok() throws IOException {
+        Path file = Files.createTempFile("testreport", ".csv");
+        Assertions.assertDoesNotThrow(() -> fileWriter.write("data", file.toString()));
     }
 
     @Test
-    public void emptyReportPath_notOk() {
+    public void write_emptyReportPath_notOk() {
         Assertions.assertThrows(IllegalArgumentException.class,
                 () -> fileWriter.write("data", ""));
     }
 
     @Test
-    public void reportFileDoesNotExist_Ok() {
+    public void write_reportFileDoesNotExist_Ok() {
         Assertions.assertDoesNotThrow(() -> fileWriter.write("data", FILE_PATH));
     }
 }

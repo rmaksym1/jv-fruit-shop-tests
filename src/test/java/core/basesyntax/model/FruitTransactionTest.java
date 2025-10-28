@@ -17,25 +17,25 @@ public class FruitTransactionTest {
     }
 
     @Test
-    public void getOperation_ReturnCorrectValues() {
+    public void getOperation_Ok() {
         Assertions.assertEquals(FruitTransaction.Operation.BALANCE,
                 fruitTransaction.getOperation());
     }
 
     @Test
-    public void getCode_ReturnCorrectValues() {
+    public void getCode_Ok() {
         String expectedCode = "b";
         Assertions.assertEquals(expectedCode, fruitTransaction.getOperation().getCode());
     }
 
     @Test
-    public void getFruit_ReturnCorrectValues() {
+    public void getFruit_Ok() {
         String expected = "banana";
         Assertions.assertEquals(expected, fruitTransaction.getFruit());
     }
 
     @Test
-    public void getQuantity_ReturnCorrectValues() {
+    public void getQuantity_Ok() {
         int expected = 15;
         Assertions.assertEquals(expected, fruitTransaction.getQuantity());
     }

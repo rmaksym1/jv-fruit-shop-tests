@@ -20,18 +20,18 @@ public class ShopServiceTest {
     private final ShopService shopService = new ShopServiceImpl(operationStrategy);
 
     @Test
-    void nullTransactionList_NotOk() {
+    void process_nullTransactionList_NotOk() {
         Assertions.assertThrows(NullPointerException.class, () -> shopService.process(null));
     }
 
     @Test
-    void emptyTransactionList_Ok() {
+    void process_emptyTransactionList_Ok() {
         List<FruitTransaction> fruitTransactionList = new ArrayList<>();
         Assertions.assertDoesNotThrow(() -> shopService.process(fruitTransactionList));
     }
 
     @Test
-    void singleNoOperationTransactionList_Ok() {
+    void process_singleNoOperationTransactionList_Ok() {
         OperationStrategy fakeStrategy = new OperationStrategy() {
             @Override
             public OperationHandler get(FruitTransaction.Operation operation) {
@@ -51,7 +51,7 @@ public class ShopServiceTest {
     }
 
     @Test
-    void singleNullTransactionList_Ok() {
+    void process_singleNullTransactionList_Ok() {
         OperationStrategy fakeStrategy = new OperationStrategy() {
             @Override
             public OperationHandler get(FruitTransaction.Operation operation) {
@@ -69,7 +69,7 @@ public class ShopServiceTest {
     }
 
     @Test
-    void validTransactionList_Ok() {
+    void process_validTransactionList_Ok() {
         OperationStrategy fakeStrategy = new OperationStrategy() {
             @Override
             public OperationHandler get(FruitTransaction.Operation operation) {

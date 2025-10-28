@@ -17,26 +17,26 @@ public class BalanceOperationTest {
     }
 
     @Test
-    void nullTransaction_NotOk() {
+    void apply_nullTransaction_NotOk() {
         Assertions.assertThrows(IllegalArgumentException.class, () -> operation.apply(null));
     }
 
     @Test
-    void emptyTransaction_Ok() {
+    void apply_emptyTransaction_Ok() {
         fruitTransaction = new FruitTransaction(FruitTransaction.Operation.BALANCE, "apple", 44);
         Assertions.assertDoesNotThrow(() ->
                 operation.apply(fruitTransaction));
     }
 
     @Test
-    void negativeQuantityTransaction_NotOk() {
+    void apply_negativeQuantityTransaction_NotOk() {
         fruitTransaction = new FruitTransaction(FruitTransaction.Operation.BALANCE, "apple", -100);
         Assertions.assertThrows(IllegalArgumentException.class, () ->
                 operation.apply(fruitTransaction));
     }
 
     @Test
-    void validTransaction_Ok() {
+    void apply_validTransaction_Ok() {
         fruitTransaction = new FruitTransaction(FruitTransaction.Operation.BALANCE, "apple", 40);
         Assertions.assertDoesNotThrow(() ->
                 operation.apply(fruitTransaction));

@@ -17,26 +17,26 @@ public class ReturnOperationTest {
     }
 
     @Test
-    void nullTransaction_NotOk() {
+    void apply_nullTransaction_NotOk() {
         Assertions.assertThrows(IllegalArgumentException.class, () -> operation.apply(null));
     }
 
     @Test
-    void emptyTransaction_Ok() {
+    void apply_emptyTransaction_Ok() {
         fruitTransaction = new FruitTransaction(FruitTransaction.Operation.RETURN, "apple", 44);
         Assertions.assertDoesNotThrow(() ->
                 operation.apply(fruitTransaction));
     }
 
     @Test
-    void negativeQuantityTransaction_NotOk() {
+    void apply_negativeQuantityTransaction_NotOk() {
         fruitTransaction = new FruitTransaction(FruitTransaction.Operation.RETURN, "apple", -10);
         Assertions.assertThrows(IllegalArgumentException.class, () ->
                 operation.apply(fruitTransaction));
     }
 
     @Test
-    void validTransaction_Ok() {
+    void apply_validTransaction_Ok() {
         storage.put("apple", 67);
         fruitTransaction = new FruitTransaction(FruitTransaction.Operation.RETURN, "apple", 20);
         Assertions.assertDoesNotThrow(() ->
