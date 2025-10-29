@@ -1,12 +1,14 @@
 package core.basesyntax.model;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import core.basesyntax.service.impl.FruitTransaction;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class FruitTransactionTest {
+    private static final String INVALID_CODE = "i";
     private FruitTransaction fruitTransaction;
 
     @BeforeEach
@@ -39,5 +41,11 @@ public class FruitTransactionTest {
     public void getQuantity_Ok() {
         int expected = 15;
         assertEquals(expected, fruitTransaction.getQuantity());
+    }
+
+    @Test
+    public void invalidCode_fromCode_NotOk() {
+        assertThrows(IllegalArgumentException.class,
+                () -> FruitTransaction.Operation.fromCode(INVALID_CODE));
     }
 }

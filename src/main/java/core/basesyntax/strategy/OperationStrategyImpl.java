@@ -16,7 +16,7 @@ public class OperationStrategyImpl implements OperationStrategy {
 
     @Override
     public OperationHandler get(FruitTransaction.Operation op) {
-        if (handlers.get(op) == null) {
+        if (op == null || handlers.get(op) == null) {
             throw new IllegalArgumentException(String.format("Operation %s not found", op));
         }
         return handlers.get(op);
