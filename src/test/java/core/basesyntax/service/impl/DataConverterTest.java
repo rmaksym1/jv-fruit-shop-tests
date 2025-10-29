@@ -1,9 +1,11 @@
 package core.basesyntax.service.impl;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import core.basesyntax.interfaces.DataConverter;
 import java.nio.file.Path;
 import java.util.List;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 public class DataConverterTest {
@@ -12,13 +14,13 @@ public class DataConverterTest {
 
     @Test
     public void convert_nullData_NotOk() {
-        Assertions.assertThrows(IllegalArgumentException.class, () ->
+        assertThrows(IllegalArgumentException.class, () ->
                 converter.convertToTransaction(null));
     }
 
     @Test
     public void convert_emptyList_NotOk() {
-        Assertions.assertThrows(IllegalArgumentException.class, () ->
+        assertThrows(IllegalArgumentException.class, () ->
                 converter.convertToTransaction(List.of()));
     }
 
@@ -30,7 +32,7 @@ public class DataConverterTest {
                 "b,apple,120",
                 "s,banana."
         );
-        Assertions.assertThrows(IllegalArgumentException.class, () ->
+        assertThrows(IllegalArgumentException.class, () ->
                 converter.convertToTransaction(list));
     }
 
@@ -42,7 +44,7 @@ public class DataConverterTest {
                 "b,apple,-120",
                 "s,banana,30"
         );
-        Assertions.assertThrows(IllegalArgumentException.class, () ->
+        assertThrows(IllegalArgumentException.class, () ->
                 converter.convertToTransaction(list));
     }
 
@@ -54,7 +56,7 @@ public class DataConverterTest {
                 "b,apple,120",
                 "s,banana,30"
         );
-        Assertions.assertDoesNotThrow(() ->
+        assertDoesNotThrow(() ->
                 converter.convertToTransaction(list));
     }
 }

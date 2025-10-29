@@ -1,9 +1,10 @@
 package core.basesyntax.service.impl;
 
 import static core.basesyntax.service.impl.StorageDao.storage;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import core.basesyntax.interfaces.ReportGenerator;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -18,7 +19,7 @@ public class ReportGeneratorTest {
     @Test
     void getReport_EmptyStorage_Ok() {
         String expected = "fruit,quantity" + System.lineSeparator();
-        Assertions.assertEquals(expected, reportGenerator.getReport());
+        assertEquals(expected, reportGenerator.getReport());
     }
 
     @Test
@@ -32,8 +33,8 @@ public class ReportGeneratorTest {
                 + "banana,45" + System.lineSeparator()
                 + "orange,36" + System.lineSeparator();
 
-        Assertions.assertDoesNotThrow(reportGenerator::getReport);
+        assertDoesNotThrow(reportGenerator::getReport);
 
-        Assertions.assertEquals(expected, reportGenerator.getReport());
+        assertEquals(expected, reportGenerator.getReport());
     }
 }

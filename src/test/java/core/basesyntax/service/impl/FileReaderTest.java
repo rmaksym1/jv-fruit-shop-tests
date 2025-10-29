@@ -1,5 +1,9 @@
 package core.basesyntax.service.impl;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import core.basesyntax.interfaces.FileReader;
 import java.io.IOException;
 import java.io.UncheckedIOException;
@@ -7,7 +11,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Collections;
 import java.util.List;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 public class FileReaderTest {
@@ -17,20 +20,20 @@ public class FileReaderTest {
 
     @Test
     void read_nonExistentFile_notOk() throws IOException {
-        Assertions.assertThrows(UncheckedIOException.class,
+        assertThrows(UncheckedIOException.class,
                 () -> fileReader.read(NON_EXISTENT_PATH));
     }
 
     @Test
     void read_nullPath_notOk() {
-        Assertions.assertThrows(IllegalArgumentException.class,
+        assertThrows(IllegalArgumentException.class,
                 () -> fileReader.read(null));
     }
 
     @Test
     void read_EmptyFile_ReturnsEmptyList_Ok() throws IOException {
         Path file = Files.createTempFile("testreport", ".csv");
-        Assertions.assertEquals(Collections.emptyList(),
+        assertEquals(Collections.emptyList(),
                 fileReader.read(String.valueOf(file)));
     }
 
@@ -51,10 +54,10 @@ public class FileReaderTest {
                 "s,banana,100"
         );
 
-        List<String> actual = Assertions.assertDoesNotThrow(
+        List<String> actual = assertDoesNotThrow(
                 () -> fileReader.read(String.valueOf(file))
         );
 
-        Assertions.assertEquals(expected, fileReader.read(file.toString()));
+        assertEquals(expected, fileReader.read(file.toString()));
     }
 }

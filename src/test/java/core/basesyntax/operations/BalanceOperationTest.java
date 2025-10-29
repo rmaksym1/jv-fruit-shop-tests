@@ -1,46 +1,54 @@
 package core.basesyntax.operations;
 
 import static core.basesyntax.service.impl.StorageDao.storage;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import core.basesyntax.service.impl.FruitTransaction;
-import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class BalanceOperationTest {
     private FruitTransaction fruitTransaction;
-    private final BalanceOperation operation = new BalanceOperation();
+    private BalanceOperation operation;
 
     @BeforeEach
     void setUp() {
+        operation = new BalanceOperation();
+    }
+
+    @AfterEach
+    void clearStorage() {
         storage.clear();
     }
 
     @Test
     void apply_nullTransaction_NotOk() {
-        Assertions.assertThrows(IllegalArgumentException.class, () -> operation.apply(null));
+        assertThrows(IllegalArgumentException.class, () -> operation.apply(null));
     }
 
     @Test
     void apply_emptyTransaction_Ok() {
         fruitTransaction = new FruitTransaction(FruitTransaction.Operation.BALANCE, "apple", 44);
-        Assertions.assertDoesNotThrow(() ->
+        assertDoesNotThrow(() ->
                 operation.apply(fruitTransaction));
     }
 
     @Test
     void apply_negativeQuantityTransaction_NotOk() {
         fruitTransaction = new FruitTransaction(FruitTransaction.Operation.BALANCE, "apple", -100);
-        Assertions.assertThrows(IllegalArgumentException.class, () ->
+        assertThrows(IllegalArgumentException.class, () ->
                 operation.apply(fruitTransaction));
     }
 
     @Test
     void apply_validTransaction_Ok() {
         fruitTransaction = new FruitTransaction(FruitTransaction.Operation.BALANCE, "apple", 40);
-        Assertions.assertDoesNotThrow(() ->
+        assertDoesNotThrow(() ->
                 operation.apply(fruitTransaction));
 
-        Assertions.assertEquals(40, storage.get("apple"));
+        assertEquals(40, storage.get("apple"));
     }
 }

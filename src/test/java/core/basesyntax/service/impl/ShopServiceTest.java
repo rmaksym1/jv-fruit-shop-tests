@@ -1,5 +1,8 @@
 package core.basesyntax.service.impl;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import core.basesyntax.interfaces.OperationHandler;
 import core.basesyntax.interfaces.OperationStrategy;
 import core.basesyntax.interfaces.ShopService;
@@ -8,26 +11,24 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 public class ShopServiceTest {
     private final Map<FruitTransaction.Operation, OperationHandler> operationHandlers
             = new HashMap<>();
-    private FruitTransaction fruitTransaction;
     private final OperationStrategy operationStrategy
             = new OperationStrategyImpl(operationHandlers);
     private final ShopService shopService = new ShopServiceImpl(operationStrategy);
 
     @Test
     void process_nullTransactionList_NotOk() {
-        Assertions.assertThrows(NullPointerException.class, () -> shopService.process(null));
+        assertThrows(NullPointerException.class, () -> shopService.process(null));
     }
 
     @Test
     void process_emptyTransactionList_Ok() {
         List<FruitTransaction> fruitTransactionList = new ArrayList<>();
-        Assertions.assertDoesNotThrow(() -> shopService.process(fruitTransactionList));
+        assertDoesNotThrow(() -> shopService.process(fruitTransactionList));
     }
 
     @Test
@@ -47,7 +48,7 @@ public class ShopServiceTest {
                 new FruitTransaction(null, "banana", 3)
         );
 
-        Assertions.assertDoesNotThrow(() -> shopService.process(transactions));
+        assertDoesNotThrow(() -> shopService.process(transactions));
     }
 
     @Test
@@ -65,7 +66,7 @@ public class ShopServiceTest {
         transactions.add(new FruitTransaction(FruitTransaction.Operation.BALANCE, "orange", 32));
         transactions.add(null);
 
-        Assertions.assertDoesNotThrow(() -> shopService.process(transactions));
+        assertDoesNotThrow(() -> shopService.process(transactions));
     }
 
     @Test
@@ -83,6 +84,6 @@ public class ShopServiceTest {
         transactions.add(new FruitTransaction(FruitTransaction.Operation.BALANCE, "orange", 32));
         transactions.add(new FruitTransaction(FruitTransaction.Operation.BALANCE, "banana", 26));
 
-        Assertions.assertDoesNotThrow(() -> shopService.process(transactions));
+        assertDoesNotThrow(() -> shopService.process(transactions));
     }
 }
