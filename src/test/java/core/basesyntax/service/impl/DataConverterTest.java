@@ -4,13 +4,17 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import core.basesyntax.interfaces.DataConverter;
-import java.nio.file.Path;
 import java.util.List;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class DataConverterTest {
-    private static final Path path = Path.of("src/main/resources/testReport.csv");
-    private final DataConverter converter = new DataConverterImpl();
+    private DataConverter converter;
+
+    @BeforeEach
+    public void setUp() {
+        converter = new DataConverterImpl();
+    }
 
     @Test
     public void convert_nullData_NotOk() {

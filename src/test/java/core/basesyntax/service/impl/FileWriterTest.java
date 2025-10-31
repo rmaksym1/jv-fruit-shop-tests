@@ -7,15 +7,21 @@ import core.basesyntax.interfaces.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class FileWriterTest {
     private static final String FILE_PATH = "src/main/resources/TestReport.csv";
-    private final FileWriter fileWriter = new FileWriterImpl();
+    private FileWriter fileWriter;
+
+    @BeforeEach
+    public void setUp() {
+        fileWriter = new FileWriterImpl();
+    }
 
     @Test
     public void write_nullReport_notOk() {
-        assertThrows(NullPointerException.class,
+        assertThrows(IllegalArgumentException.class,
                 () -> fileWriter.write(null, FILE_PATH));
     }
 
@@ -27,7 +33,7 @@ public class FileWriterTest {
 
     @Test
     public void write_nullReportPath_notOk() {
-        assertThrows(NullPointerException.class,
+        assertThrows(IllegalArgumentException.class,
                 () -> fileWriter.write("data", null));
     }
 

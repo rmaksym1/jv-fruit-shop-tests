@@ -11,12 +11,18 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Collections;
 import java.util.List;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class FileReaderTest {
     private static final String NON_EXISTENT_PATH = "src/main/resources/nothing.csv";
     private static final Path EMPTY_PATH = Path.of("src/main/resources/emptyReport.csv");
-    private final FileReader fileReader = new FileReaderImpl();
+    private FileReader fileReader;
+
+    @BeforeEach
+    public void setUp() {
+        fileReader = new FileReaderImpl();
+    }
 
     @Test
     void read_nonExistentFile_notOk() throws IOException {

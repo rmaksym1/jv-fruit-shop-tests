@@ -11,18 +11,22 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class ShopServiceTest {
-    private final Map<FruitTransaction.Operation, OperationHandler> operationHandlers
-            = new HashMap<>();
-    private final OperationStrategy operationStrategy
-            = new OperationStrategyImpl(operationHandlers);
-    private final ShopService shopService = new ShopServiceImpl(operationStrategy);
+    private ShopService shopService;
+
+    @BeforeEach
+    void setUp() {
+        Map<FruitTransaction.Operation, OperationHandler> operationHandlers = new HashMap<>();
+        OperationStrategy operationStrategy = new OperationStrategyImpl(operationHandlers);
+        shopService = new ShopServiceImpl(operationStrategy);
+    }
 
     @Test
     void process_nullTransactionList_NotOk() {
-        assertThrows(NullPointerException.class, () -> shopService.process(null));
+        assertThrows(IllegalArgumentException.class, () -> shopService.process(null));
     }
 
     @Test

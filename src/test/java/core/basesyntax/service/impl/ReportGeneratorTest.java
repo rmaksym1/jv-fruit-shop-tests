@@ -5,14 +5,20 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import core.basesyntax.interfaces.ReportGenerator;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class ReportGeneratorTest {
-    private final ReportGenerator reportGenerator = new ReportGeneratorImpl();
+    private ReportGenerator reportGenerator;
 
     @BeforeEach
     void setUp() {
+        reportGenerator = new ReportGeneratorImpl();
+    }
+
+    @AfterEach
+    void tearDown() {
         storage.clear();
     }
 

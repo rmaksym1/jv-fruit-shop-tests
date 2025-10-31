@@ -10,6 +10,9 @@ public class FileWriterImpl implements FileWriter {
 
     @Override
     public void write(String report, String reportPath) {
+        if (report == null || reportPath == null) {
+            throw new IllegalArgumentException("Report or path can't be null");
+        }
         if (!report.isEmpty() && !reportPath.isEmpty()) {
             Path path = Path.of(reportPath);
             try {
@@ -26,7 +29,7 @@ public class FileWriterImpl implements FileWriter {
                 throw new RuntimeException("Can't write data to file: " + reportPath, e);
             }
         } else {
-            throw new IllegalArgumentException("Report or Path can't be empty or null.");
+            throw new IllegalArgumentException("Report or Path can't be empty");
         }
     }
 }
