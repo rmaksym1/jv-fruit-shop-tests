@@ -11,24 +11,25 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class FileWriterTest {
-    private static final String FILE_PATH = "src/main/resources/TestReport.csv";
+    private String path
     private FileWriter fileWriter;
 
     @BeforeEach
     public void setUp() {
         fileWriter = new FileWriterImpl();
+        path = "src/main/resources/TestReport.csv";
     }
 
     @Test
     public void write_nullReport_notOk() {
         assertThrows(IllegalArgumentException.class,
-                () -> fileWriter.write(null, FILE_PATH));
+                () -> fileWriter.write(null, path));
     }
 
     @Test
     public void write_emptyReport_notOk() {
         assertThrows(IllegalArgumentException.class,
-                () -> fileWriter.write("", FILE_PATH));
+                () -> fileWriter.write("", path));
     }
 
     @Test
@@ -57,6 +58,7 @@ public class FileWriterTest {
 
     @Test
     public void write_reportFileDoesNotExist_Ok() {
-        assertDoesNotThrow(() -> fileWriter.write("data", FILE_PATH));
+        assertDoesNotThrow(() -> fileWriter.write("data", path));
     }
 }
+
