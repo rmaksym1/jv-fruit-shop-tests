@@ -15,8 +15,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class FileReaderTest {
-    private static final String NON_EXISTENT_PATH = "src/main/resources/nothing.csv";
-    private static final Path EMPTY_PATH = Path.of("src/main/resources/emptyReport.csv");
     private FileReader fileReader;
 
     @BeforeEach
@@ -27,7 +25,7 @@ public class FileReaderTest {
     @Test
     void read_nonExistentFile_notOk() throws IOException {
         assertThrows(UncheckedIOException.class,
-                () -> fileReader.read(NON_EXISTENT_PATH));
+                () -> fileReader.read("src/main/resources/nothing.csv"));
     }
 
     @Test
@@ -67,3 +65,4 @@ public class FileReaderTest {
         assertEquals(expected, fileReader.read(file.toString()));
     }
 }
+
