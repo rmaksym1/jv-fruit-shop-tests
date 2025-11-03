@@ -8,7 +8,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class FruitTransactionTest {
-    private static final String INVALID_CODE = "i";
     private FruitTransaction fruitTransaction;
 
     @BeforeEach
@@ -46,6 +45,7 @@ public class FruitTransactionTest {
     @Test
     public void invalidCode_fromCode_NotOk() {
         assertThrows(IllegalArgumentException.class,
-                () -> FruitTransaction.Operation.fromCode(INVALID_CODE));
+                () -> FruitTransaction.Operation.fromCode("i"));
     }
 }
+
