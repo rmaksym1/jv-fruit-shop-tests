@@ -11,7 +11,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class FileWriterTest {
-    private String path
+    private String path;
     private FileWriter fileWriter;
 
     @BeforeEach
@@ -61,4 +61,5 @@ public class FileWriterTest {
         assertDoesNotThrow(() -> fileWriter.write("data", path));
     }
 }
+
 
